@@ -14,6 +14,22 @@
     });
   }
 </script>
+<script type="module">
+  import { addReceipt, getAllReceipts } from './db.js';
+
+  window.testDB = async () => {
+    const receipt = {
+      id: Date.now(),
+      uuid: crypto.randomUUID(),
+      date: new Date().toISOString(),
+      total: 123.45
+    };
+
+    await addReceipt(receipt);
+    const all = await getAllReceipts();
+    console.log('DB contents:', all);
+  };
+</script>
 <body>
   <h1>CostFlow</h1>
   <p>Sandbox is alive.</p>
