@@ -7,6 +7,13 @@
   <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#ffffff">
 </head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
+</script>
 <body>
   <h1>CostFlow</h1>
   <p>Sandbox is alive.</p>
