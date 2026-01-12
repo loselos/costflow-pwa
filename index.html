@@ -30,8 +30,45 @@
     console.log('DB contents:', all);
   };
 </script>
+
+
+
+  <script type="module">
+  import {
+    addCategory,
+    getAllCategories,
+    addPaymentMethod,
+    getAllPaymentMethods
+  } from './db.js';
+
+  async function initDictionaries() {
+    const categories = await getAllCategories();
+
+    if (categories.length === 0) {
+      await addCategory({ id: 'food', name: 'Еда' });
+      await addCategory({ id: 'transport', name: 'Транспорт' });
+      await addCategory({ id: 'home', name: 'Дом' });
+    }
+
+    const payments = await getAllPaymentMethods();
+
+    if (payments.length === 0) {
+      await addPaymentMethod({ id: 'cash', name: 'Наличные' });
+      await addPaymentMethod({ id: 'card', name: 'Карта' });
+    }
+
+    console.log('Dictionaries initialized');
+  }
+
+  initDictionaries();
+</script>
+
+
+
+
+  
 <body>
   <h1>CostFlow</h1>
-  <p>Sandbox is alive.</p>
+  <p>Sandbox isпр alive.</p>
 </body>
 </html>
