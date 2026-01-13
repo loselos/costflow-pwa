@@ -4,69 +4,80 @@
   <meta charset="UTF-8">
   <title>CostFlow</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="manifest.json">
 </head>
-<!--
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js');
-    });
-  }
-</script>
--->
-<script type="module">
-  import {
-    addReceipt,
-    getAllReceipts,
-    addCategory,
-    getAllCategories,
-    addPaymentMethod,
-    getAllPaymentMethods
-  } from './db.js';
-
-  window.testDB = async () => {
-    const receipt = {
-      id: Date.now(),
-      uuid: crypto.randomUUID(),
-      date: new Date().toISOString(),
-      total: 123.45
-    };
-
-    await addReceipt(receipt);
-    const all = await getAllReceipts();
-    console.log('DB contents:', all);
-  };
-
-  async function initDictionaries() {
-    const categories = await getAllCategories();
-
-    if (categories.length === 0) {
-      await addCategory({ id: 'food', name: 'Еда' });
-      await addCategory({ id: 'transport', name: 'Транспорт' });
-      await addCategory({ id: 'home', name: 'Дом' });
-    }
-
-    const payments = await getAllPaymentMethods();
-
-    if (payments.length === 0) {
-      await addPaymentMethod({ id: 'cash', name: 'Наличные' });
-      await addPaymentMethod({ id: 'card', name: 'Карта' });
-    }
-
-    console.log('Dictionaries initialized');
-  }
-
-  initDictionaries();
-</script>
-
-
-
-
-  
 <body>
   <h1>CostFlow</h1>
-  <p>Sandbox isпр alive.</p>
+  <p>Sandbox is alive.</p>
+
+  <script>
+    // Регистрация Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('ServiceWorker зарегистрирован:', registration);
+          })
+          .catch(error => {
+            console.error('Ошибка регистрации ServiceWorker:', error);
+          });
+      });
+    }
+  </script>
+
+  <script type="module">
+    import {
+      addReceipt,
+      getAllReceipts,
+      addCategory,
+      getAllCategories,
+      addPaymentMethod,
+      getAllPaymentMethods
+    } from './db.js';
+
+    // Тестовая функция для проверки БД
+    window.testDB = async () => {
+      try {
+        const receipt = {
+          id: Date.now(),
+          uuid: crypto.randomUUID(),
+          date: new Date().toISOString(),
+          total: 123.45
+        };
+
+        await addReceipt(receipt);
+        const all = await getAllReceipts();
+        console.log('Содержимое БД:', all);
+      } catch (error) {
+        console.error('Ошибка в testDB:', error);
+      }
+    };
+
+    // Инициализация справочников
+    async function initDictionaries() {
+      try {
+        const categories = await getAllCategories();
+        if (categories.length === 0) {
+          await addCategory({ id: 'food', name: 'Еда' });
+          await addCategory({ id: 'transport', name: 'Транспорт' });
+          await addCategory({ id: 'home', name: 'Дом' });
+        }
+
+        const payments = await getAllPaymentMethods();
+        if (payments.length === 0) {
+          await addPaymentMethod({ id: 'cash', name: 'Наличные' });
+          await addPaymentMethod({ id: 'card', name: 'Карта' });
+        }
+
+        console.log('Справочники инициализированы');
+      } catch (error) {
+        console.error('Ошибка инициализации справочников:', error);
+      }
+    }
+
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', initDictionaries);
+  </script>
 </body>
 </html>
