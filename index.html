@@ -15,7 +15,14 @@
   }
 </script>
 <script type="module">
-  import { addReceipt, getAllReceipts } from './db.js';
+  import {
+    addReceipt,
+    getAllReceipts,
+    addCategory,
+    getAllCategories,
+    addPaymentMethod,
+    getAllPaymentMethods
+  } from './db.js';
 
   window.testDB = async () => {
     const receipt = {
@@ -29,13 +36,6 @@
     const all = await getAllReceipts();
     console.log('DB contents:', all);
   };
-
-  import {
-    addCategory,
-    getAllCategories,
-    addPaymentMethod,
-    getAllPaymentMethods
-  } from './db.js';
 
   async function initDictionaries() {
     const categories = await getAllCategories();
